@@ -1,0 +1,9 @@
+{
+  "name": "design-reviewer-scf",
+  "version": "1.0.0",
+  "description": "Design Reviewer backend on Tencent Cloud SCF",
+  "main": "index.js",
+  "dependencies": {
+    "cos-nodejs-sdk-v5": "^2.12.0"
+  }
+}

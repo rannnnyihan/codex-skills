@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · vibe-test-kit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Inter','PingFang SC',sans-serif;background:#0b0b10;color:#e2e8f0;min-height:100vh;padding:40px 20px 120px}
+.wrap{max-width:720px;margin:0 auto}
+h1{font-size:1.5rem;font-weight:700;letter-spacing:-.025em;margin-bottom:6px}
+.sub{font-size:.82rem;color:#64748b;margin-bottom:32px}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:22px;margin-bottom:14px}
+.card h2{font-size:1rem;font-weight:600;margin-bottom:12px}
+.card p{font-size:.82rem;color:#94a3b8;line-height:1.7;margin-bottom:12px}
+.btn{padding:10px 18px;border-radius:10px;border:none;font-size:.82rem;font-weight:600;cursor:pointer;background:#f59e0b;color:#0b0b10;transition:filter .2s}
+.btn:hover{filter:brightness(1.1)}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#e2e8f0}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.log{margin-top:24px;padding:14px;background:rgba(0,0,0,0.3);border-radius:10px;border:1px solid rgba(255,255,255,0.05);font-family:'SF Mono',Monaco,monospace;font-size:.7rem;line-height:1.6;color:#64748b;max-height:200px;overflow-y:auto}
+.log div{padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+.log .ok{color:#10b981}
+.log .err{color:#ef4444}
+.banner{padding:14px 18px;border-radius:10px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);font-size:.78rem;color:#fbbf24;margin-bottom:24px;line-height:1.6}
+.banner code{background:rgba(0,0,0,0.3);padding:1px 6px;border-radius:4px;font-size:.72rem}
+.progress{height:6px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);transition:width .3s ease;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Demo · 被测产品示例</h1>
+    <p class="sub">演示 vibe-test-kit 三件套的接入效果。URL 中带 <code>?smode=test&amp;uid=xxx</code> 会激活测试模式。</p>
+
+    <div class="banner">
+        <strong>当前模式：</strong><span id="modeTag">浏览模式</span>
+        <br>试试打开
+        <a href="?uid=demo_user&test=demo&smode=test&stype=internal&ssurveys=1&sexit=1&swelcome=1&scp=onboard_ease,wait_sam,result_sam,edit_ease&stasks=1" style="color:#fbbf24;text-decoration:underline">测试模式链接</a>
+        体验完整流程（欢迎页 → 任务气泡 → 情境问卷 → 总结问卷）。
+    </div>
+
+    <div class="card">
+        <h2>1) 开始一个"任务"</h2>
+        <p>点击下方按钮模拟用户开始一个操作流程。tracker 会记录点击事件，survey 引擎会标记 <code>task_started</code> 触发入门问卷。</p>
+        <div class="row">
+            <button class="btn" onclick="startTask()">开始任务</button>
+            <button class="btn btn-ghost" onclick="logEvent('click', { target: '#btnGhost', text: '次要操作' })">次要操作</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>2) 模拟"处理中"阶段</h2>
+        <p>点击后进入 30 秒倒计时，tracker 会触发 <code>phase_start</code>，survey 引擎在 30s 后弹出 SAM 情绪量表。</p>
+        <div class="row">
+            <button class="btn" onclick="startProcessing()">开始处理</button>
+            <span id="procStatus" style="font-size:.78rem;color:#64748b"></span>
+        </div>
+        <div class="progress"><div class="progress-fill" id="procBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="card">
+        <h2>3) 完成任务（里程碑）</h2>
+        <p>点击表示用户完成了任务 T1 / T2 / T3。每完成一个，任务气泡会打勾。</p>
+        <div class="row">
+            <button class="btn" onclick="completeTask('T1','完成第一个目标任务')">完成任务 T1</button>
+            <button class="btn" onclick="completeTask('T2','完成第二个目标任务')">完成任务 T2</button>
+            <button class="btn" onclick="completeTask('T3','完成第三个目标任务')">完成任务 T3</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>4) 查看本地采集的事件</h2>
+        <p>tracker 默认把事件同时落在 <code>localStorage['vibe_track_all']</code>，方便本地调试。</p>
+        <div class="row">
+            <button class="btn btn-ghost" onclick="showLocal()">查看本地事件</button>
+            <button class="btn btn-ghost" onclick="clearLocal()">清空本地事件</button>
+            <button class="btn btn-ghost" onclick="window.open('../dashboard/index.html','_blank')">打开看板</button>
+        </div>
+        <div id="log" class="log" style="display:none"></div>
+    </div>
+</div>
+
+<!-- =============== 接入示例：三步 =============== -->
+<!-- 1. 问卷配置（可选，默认使用 survey.config.js 通用配置） -->
+<script src="../src/survey.config.js"></script>
+
+<!-- 2. 埋点 SDK（data-endpoint 可选，缺省只落 localStorage） -->
+<script src="../src/tracker.js"></script>
+
+<!-- 3. 问卷引擎（URL 带 ?smode=test 时自动激活） -->
+<script src="../src/survey.js"></script>
+
+<!-- =============== 业务代码 =============== -->
+<script>
+// 更新模式标签
+document.getElementById('modeTag').textContent =
+    new URLSearchParams(location.search).get('smode') === 'test'
+        ? '测试模式（问卷/气泡已激活）'
+        : '浏览模式（仅埋点，不弹问卷）';
+
+function logEvent(type, detail) {
+    if (window.VibeTracker) VibeTracker.record(type, detail);
+}
+
+function startTask() {
+    // 打个里程碑：task_started
+    if (window.VibeTracker) VibeTracker.milestone('task_started', { at: Date.now() });
+}
+
+function startProcessing() {
+    const bar = document.getElementById('procBar');
+    const status = document.getElementById('procStatus');
+    if (window.VibeTracker) VibeTracker.phaseStart('processing');
+    let pct = 0;
+    const timer = setInterval(() => {
+        pct += 100 / 30;
+        bar.style.width = Math.min(pct, 100) + '%';
+        status.textContent = pct < 100 ? '处理中 ' + Math.round(pct) + '%' : '完成';
+        if (pct >= 100) {
+            clearInterval(timer);
+            if (window.VibeTracker) {
+                VibeTracker.phaseEnd('processing');
+                VibeTracker.milestone('view_result');
+            }
+        }
+    }, 1000);
+}
+
+function completeTask(id, label) {
+    if (window.VibeTracker) VibeTracker.taskComplete(id, label);
+    // 如果是编辑类任务也触发 task_edit 方便弹 edit_ease
+    if (id === 'T2' && window.VibeTracker) VibeTracker.milestone('task_edit');
+}
+
+function showLocal() {
+    const log = document.getElementById('log');
+    log.style.display = 'block';
+    const evs = window.VibeTracker ? VibeTracker.getLocalEvents() : [];
+    if (!evs.length) {
+        log.innerHTML = '<div class="err">无本地事件</div>';
+        return;
+    }
+    log.innerHTML = evs.slice(-50).reverse().map(e =>
+        '<div>' + (e.ts||'').slice(11,19) + ' · <span class="ok">' + e.type + '</span> · ' +
+        JSON.stringify(e.d).slice(0,160) + '</div>'
+    ).join('');
+}
+
+function clearLocal() {
+    if (window.VibeTracker) VibeTracker.clearLocalEvents();
+    showLocal();
+}
+</script>
+</body>
+</html>

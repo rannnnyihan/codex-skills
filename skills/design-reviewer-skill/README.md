@@ -101,7 +101,7 @@ design-reviewer-skill/
 
 ## 🐛 反馈
 
-有问题直接找 **@darianyi** 或在这个仓库提 Issue。
+有问题直接找 **@reginaran** 或在这个仓库提 Issue。
 
 ---
 

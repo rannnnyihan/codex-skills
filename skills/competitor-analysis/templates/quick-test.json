@@ -1,0 +1,20 @@
+[
+  {
+    "id": "descript-home",
+    "url": "https://www.descript.com/",
+    "wait": 4000,
+    "preClean": true
+  },
+  {
+    "id": "synthesia-home",
+    "url": "https://www.synthesia.io/",
+    "wait": 5000,
+    "preClean": true
+  },
+  {
+    "id": "pika-home",
+    "url": "https://pika.art/",
+    "wait": 4000,
+    "preClean": true
+  }
+]

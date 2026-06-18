@@ -1,0 +1,132 @@
+{
+  "_schema_hint": {
+    "type": "'product' = 产品型竞品（整体对标，截所有模块） | 'feature' = 功能型竞品（跨行业某功能最佳实践，只截 targetModules 列出的模块）",
+    "targetModules": "仅 feature 型必填；数组，每项必须是 product-profile.modules 里的 id",
+    "loginRequired": "true 则 step3 会自动弹浏览器让用户登录（每个竞品只需登一次，state 保存到 .auth/）",
+    "moduleUrls": "key = module id, value = 该竞品对应该模块的真实功能页 URL。对于需要登录才有真 UI 的产品，这里可以先填营销页，登录后 step3 会用同一 URL 重截",
+    "appUrl": "（可选）登录后真实工作台的入口，例如 https://app.xxx.com/ — 比 moduleUrls 的营销页更能看到真 UI",
+    "demoVideoUrl": "（可选）官方 demo 视频 URL（MP4 直链 / YouTube / Vimeo）。当 step3 登录后仍然截不到真 UI 时，会自动抽帧 fallback",
+    "_v03_1_changes": "所有产品型竞品默认 loginRequired: true。因为几乎所有 SaaS 未登录看到的都是营销页，只有登录后才能截到真实 UI 作为分析素材"
+  },
+  "competitors": [
+    {
+      "id": "coda",
+      "name": "Coda",
+      "type": "product",
+      "url": "https://coda.io/",
+      "appUrl": "https://coda.io/gallery",
+      "summary": "文档 + 数据库一体化的协作工作区",
+      "loginRequired": true,
+      "moduleUrls": {
+        "doc-editor": "https://coda.io/gallery",
+        "database": "https://coda.io/product/trackers-and-apps",
+        "sidebar": "https://coda.io/templates",
+        "ai-assistant": "https://coda.io/product/ai",
+        "comments": "https://coda.io/product/integrations"
+      }
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "type": "product",
+      "url": "https://obsidian.md/",
+      "summary": "本地优先的双链知识库（桌面 App，浏览器看不到真 UI → 视频抽帧 fallback）",
+      "loginRequired": false,
+      "demoVideoUrl": "https://obsidian.md/",
+      "moduleUrls": {
+        "doc-editor": "https://obsidian.md/",
+        "database": "https://obsidian.md/plugins",
+        "sidebar": "https://help.obsidian.md/Plugins/Files",
+        "ai-assistant": "https://obsidian.md/canvas",
+        "comments": "https://help.obsidian.md/"
+      }
+    },
+    {
+      "id": "craft",
+      "name": "Craft",
+      "type": "product",
+      "url": "https://www.craft.do/",
+      "summary": "极简美学的结构化文档工具（桌面 App，浏览器只能看营销页 → 视频抽帧）",
+      "loginRequired": false,
+      "demoVideoUrl": "https://www.craft.do/",
+      "moduleUrls": {
+        "doc-editor": "https://www.craft.do/",
+        "database": "https://www.craft.do/",
+        "sidebar": "https://www.craft.do/",
+        "ai-assistant": "https://www.craft.do/",
+        "comments": "https://www.craft.do/"
+      }
+    },
+    {
+      "id": "clickup-docs",
+      "name": "ClickUp Docs",
+      "type": "product",
+      "url": "https://clickup.com/features/docs",
+      "appUrl": "https://app.clickup.com/",
+      "summary": "项目管理套件中的文档模块，深度协作导向",
+      "loginRequired": true,
+      "moduleUrls": {
+        "doc-editor": "https://clickup.com/features/docs",
+        "database": "https://clickup.com/features/table-view",
+        "sidebar": "https://clickup.com/features/hierarchy",
+        "ai-assistant": "https://clickup.com/ai",
+        "comments": "https://clickup.com/features/comments"
+      }
+    },
+    {
+      "id": "roam",
+      "name": "Roam Research",
+      "type": "product",
+      "url": "https://roamresearch.com/",
+      "appUrl": "https://roamresearch.com/#/app",
+      "summary": "双链笔记鼻祖，网状思维组织",
+      "loginRequired": true,
+      "moduleUrls": {
+        "doc-editor": "https://roamresearch.com/",
+        "database": "https://roamresearch.com/",
+        "sidebar": "https://roamresearch.com/",
+        "ai-assistant": "https://roamresearch.com/",
+        "comments": "https://roamresearch.com/"
+      }
+    },
+    {
+      "id": "google-docs",
+      "name": "Google Docs",
+      "type": "feature",
+      "targetModules": ["doc-editor"],
+      "url": "https://docs.google.com/document/u/0/",
+      "appUrl": "https://docs.google.com/document/u/0/",
+      "summary": "长文档编辑的行业标杆（只对标 Notion 的文档编辑模块）",
+      "loginRequired": true,
+      "moduleUrls": {
+        "doc-editor": "https://docs.google.com/document/u/0/"
+      }
+    },
+    {
+      "id": "figjam",
+      "name": "FigJam",
+      "type": "feature",
+      "targetModules": ["comments"],
+      "url": "https://www.figma.com/figjam/",
+      "appUrl": "https://www.figma.com/files/recent",
+      "summary": "实时协作评论/贴纸的最佳实践（只对标评论协作模块）",
+      "loginRequired": true,
+      "moduleUrls": {
+        "comments": "https://www.figma.com/figjam/"
+      }
+    },
+    {
+      "id": "chatgpt-canvas",
+      "name": "ChatGPT Canvas",
+      "type": "feature",
+      "targetModules": ["ai-assistant"],
+      "url": "https://openai.com/chatgpt/canvas/",
+      "summary": "AI 与文档深度编辑融合（只对标 AI 助手模块，OpenAI 反爬强 → 视频抽帧）",
+      "loginRequired": false,
+      "demoVideoUrl": "https://openai.com/chatgpt/canvas/",
+      "moduleUrls": {
+        "ai-assistant": "https://openai.com/chatgpt/canvas/"
+      }
+    }
+  ]
+}

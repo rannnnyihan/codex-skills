@@ -1,0 +1,60 @@
+{
+  "_schema_hint": {
+    "modules": "产品功能区域（doc-editor/database/...）",
+    "dimensions": "v0.4 起 dimensions = 交互组件（不是效率/灵活性这种商业维度）。从 12 个组件字典里挑 3-5 个最相关的",
+    "_component_library": "运行 `node scripts/components-library.js document` 查看推荐"
+  },
+  "userProduct": {
+    "id": "notion",
+    "name": "Notion",
+    "monogram": "N",
+    "url": "https://www.notion.so",
+    "homeUrl": "https://www.notion.so",
+    "type": "document",
+    "summary": "协作文档 / 知识库 / 数据库一体化工作区，所有结构都是 block",
+    "modules": [
+      { "id": "doc-editor", "name": "文档编辑", "url": "https://www.notion.so/product/docs" },
+      { "id": "database", "name": "数据库/表格", "url": "https://www.notion.so/help/intro-to-databases" },
+      { "id": "sidebar", "name": "左侧导航", "url": "https://www.notion.so" },
+      { "id": "ai-assistant", "name": "AI 助手", "url": "https://www.notion.so/product/ai" },
+      { "id": "comments", "name": "评论协作", "url": "https://www.notion.so/help/comments-mentions-and-reminders" }
+    ],
+    "dimensions": [
+      {
+        "id": "editor",
+        "name": "编辑器",
+        "kind": "component",
+        "desc": "Block editor / Slash command / 快捷操作",
+        "reviewFocus": "光标行为、粘贴处理、快捷操作、block 类型丰富度"
+      },
+      {
+        "id": "toolbar",
+        "name": "工具栏",
+        "kind": "component",
+        "desc": "顶部操作栏 / 选中区浮出工具栏",
+        "reviewFocus": "常用动作可达性、分组逻辑、状态反馈"
+      },
+      {
+        "id": "modal",
+        "name": "对话框",
+        "kind": "component",
+        "desc": "新建文档 / 分享 / 模板选择等阻塞式浮层",
+        "reviewFocus": "触发路径、尺寸与布局、关闭方式、动画"
+      },
+      {
+        "id": "popover",
+        "name": "悬浮层",
+        "kind": "component",
+        "desc": "提及预览 / AI 建议 / Inline help",
+        "reviewFocus": "触发时机、内容密度、定位算法、dismiss 方式"
+      },
+      {
+        "id": "avatar-collab",
+        "name": "协作痕迹",
+        "kind": "component",
+        "desc": "Avatar stack / Live cursor / Presence indicator",
+        "reviewFocus": "实时感、不干扰感、身份识别、选择冲突"
+      }
+    ]
+  }
+}

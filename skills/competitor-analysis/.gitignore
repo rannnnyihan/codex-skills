@@ -1,0 +1,7 @@
+node_modules/
+work/
+out/
+.auth/
+.profile-*/
+*.log
+.DS_Store

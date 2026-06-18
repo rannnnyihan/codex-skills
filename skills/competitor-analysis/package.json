@@ -1,0 +1,34 @@
+{
+  "name": "competitor-analysis-skill",
+  "version": "0.2.0",
+  "description": "端到端竞品分析平台生成器 · 含批量截图、登录态、浮层清扫、视频抽帧",
+  "main": "scripts/capture.js",
+  "scripts": {
+    "step1": "node scripts/step1-analyze-product.js",
+    "step2": "node scripts/step2-vet-competitors.js",
+    "step3": "node scripts/step3-capture-all.js",
+    "step5": "node scripts/step5-generate-site.js",
+    "capture": "node scripts/capture.js",
+    "batch": "node scripts/batch.js",
+    "login": "node scripts/login.js",
+    "frames": "node scripts/frame-extract.js",
+    "explore": "node scripts/step3-explore.js",
+    "fallback-video": "node scripts/step3-fallback-video.js",
+    "verify": "node scripts/verify-screenshots.js",
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.48.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "competitor-analysis",
+    "screenshot",
+    "playwright",
+    "ux-design",
+    "ai-skill"
+  ],
+  "license": "MIT"
+}

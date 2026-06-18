@@ -6,5 +6,6 @@ Personal Codex skill backups.
 
 - `skills/vibe-test-kit`
 - `skills/design-reviewer-skill`
+- `skills/competitor-analysis`
 
 To install manually, copy a skill directory into `~/.codex/skills/`, then restart Codex.

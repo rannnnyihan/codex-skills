@@ -1,0 +1,41 @@
+[
+  {
+    "id": "descript-home",
+    "url": "https://www.descript.com/",
+    "wait": 4000,
+    "preClean": true
+  },
+  {
+    "id": "descript-features-ai-editor",
+    "url": "https://www.descript.com/ai-video-editor",
+    "wait": 4000,
+    "preClean": true,
+    "preCleanExtra": ["#cookie-consent", ".announcement-bar"]
+  },
+  {
+    "id": "runway-tools",
+    "url": "https://runwayml.com/product/tools",
+    "wait": 5000,
+    "preClean": true
+  },
+  {
+    "id": "capcut-editor-loggedin",
+    "url": "https://www.capcut.com/editor",
+    "state": "../.auth/capcut-state.json",
+    "wait": 8000,
+    "preClean": true,
+    "preCleanExtra": [".pippit-promo", "[data-tutorial-step]"],
+    "before": [
+      { "action": "wait", "ms": 2000 },
+      { "action": "press", "key": "Escape" }
+    ]
+  },
+  {
+    "id": "heygen-templates",
+    "url": "https://www.heygen.com/templates",
+    "wait": 5000,
+    "preClean": true,
+    "fullPage": false,
+    "viewport": [1440, 900]
+  }
+]

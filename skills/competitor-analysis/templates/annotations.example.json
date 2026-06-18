@@ -1,0 +1,45 @@
+{
+  "screenshot": "capcut-editor-loggedin.png",
+  "title": "CapCut Web 编辑器主界面",
+  "url": "https://www.capcut.com/editor",
+  "capturedAt": "2026-04-30T17:13:00+08:00",
+  "viewport": [1440, 900],
+  "annotations": [
+    {
+      "id": 1,
+      "x": 0,
+      "y": 0,
+      "w": 6,
+      "h": 100,
+      "label": "一级工具栏",
+      "note": "Media / Templates / Elements / Audio / Text / Captions / Transcript / Effects / Transitions / Filters / Brand kit / Plugins · 共 12 项"
+    },
+    {
+      "id": 2,
+      "x": 6,
+      "y": 0,
+      "w": 24,
+      "h": 100,
+      "label": "二级面板",
+      "note": "上传区 + 用户素材库 + 模板推荐 + Pippit AI 横幅"
+    },
+    {
+      "id": 3,
+      "x": 30,
+      "y": 60,
+      "w": 70,
+      "h": 25,
+      "label": "时间线",
+      "note": "支持麦克风录音、屏幕录制、缩放、分割等操作"
+    },
+    {
+      "id": 4,
+      "x": 80,
+      "y": 0,
+      "w": 20,
+      "h": 6,
+      "label": "导出/协作区",
+      "note": "用户头像 + 协作者 + Export 按钮"
+    }
+  ]
+}
